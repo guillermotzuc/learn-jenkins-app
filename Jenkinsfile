@@ -45,6 +45,7 @@ pipeline {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.60.0-noble'
                     reuseNode true
+                    args '-u root'  // Run as root to avoid permission issues
                 }
             }
             steps {
@@ -52,6 +53,7 @@ pipeline {
                  npm install serve
                  node_modules/.bin/serve -s build &
                  sleep 10
+                 export PLAYWRIGHT_BROWSERS_PATH=/usr/lib/playwright
                  npx playwright test
                 '''
             }
